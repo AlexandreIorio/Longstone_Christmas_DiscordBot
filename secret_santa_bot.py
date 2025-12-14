@@ -5,11 +5,31 @@ import re
 import pickle
 import os.path
 import sys
+import json
 import discord
 from generate_pairs import create_pairing
-from data_XXXX import penultimate_christmas_dict, previous_christmas_dict, couple_dict, users, id_to_display_name
 
 LONGSTONE_GUILD = 704366096165109770
+
+# Global variables for data
+users = []
+id_to_display_name = {}
+penultimate_christmas_dict = {}
+previous_christmas_dict = {}
+couple_dict = {}
+
+def load_data(json_file):
+    """Load secret santa data from JSON file"""
+    global users, id_to_display_name, penultimate_christmas_dict, previous_christmas_dict, couple_dict
+    
+    with open(json_file, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    users = data.get('users', [])
+    id_to_display_name = data.get('id_to_display_name', {})
+    penultimate_christmas_dict = data.get('penultimate_christmas_dict', {})
+    previous_christmas_dict = data.get('previous_christmas_dict', {})
+    couple_dict = data.get('couple_dict', {})
 
 # https://tomayko.com/blog/2004/cleanest-python-find-in-list-function
 def find(f, seq):
@@ -167,6 +187,30 @@ def retrieveToken():
         return f.readline().strip()
 
 if __name__ == '__main__':
+    # Check for JSON file argument
+    if len(sys.argv) < 2:
+        print("Usage: python secret_santa_bot.py <data_file.json>")
+        print("Example: python secret_santa_bot.py data_2025.json")
+        sys.exit(1)
+    
+    json_file = sys.argv[1]
+    
+    # Load data from JSON file
+    try:
+        load_data(json_file)
+        print(f"Data loaded successfully from {json_file}")
+        print(f"Participants: {len(users)} users")
+    except FileNotFoundError:
+        print(f"Error: JSON file '{json_file}' not found")
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON in '{json_file}': {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error loading data from '{json_file}': {e}")
+        sys.exit(1)
+    
+    # Retrieve bot token
     try:
         token = retrieveToken()
     except OSError as e:
@@ -177,4 +221,4 @@ if __name__ == '__main__':
     intents.message_content = True
     intents.members = True
     client = MyClient(intents=intents)
-    client.run(retrieveToken())
+    client.run(token)

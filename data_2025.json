@@ -1,0 +1,61 @@
+{
+  "users": [
+    "bylex0802",
+    "romain4956",
+    "vivianus3950",
+    "_meliz_",
+    "cricri7570",
+    "Cinducci",
+    "lucine2884",
+    "barbieguuurl",
+    "thomas5564"
+  ],
+  
+  "id_to_display_name": {
+    "thomas5564": "ThomasB",
+    "bylex0802": "ByLex",
+    "_meliz_": "méliz",
+    "barbieguuurl": "BarbieGurl",
+    "romain4956": "Romain",
+    "vivianus3950": "vivianus3950",
+    "Cinducci": "Cinducci",
+    "LoloManzo": "Lolomanzo",
+    "lucine2884": "Lucine",
+    "cricri7570": "Cricri"
+  },
+
+  "penultimate_christmas_dict": {
+    "bylex0802": "LoloManzo",
+    "vivianus3950": "Cinducci",
+    "_meliz_": "barbieguuurl",
+    "cricri7570": "vivianus3950",
+    "LoloManzo": "lucine2884",
+    "Cinducci": "_meliz_",
+    "lucine2884": "cricri7570",
+    "barbieguuurl": "thomas5564",
+    "thomas5564": "bylex0802"
+  },
+
+  "previous_christmas_dict": {
+    "bylex0802": "vivianus3950",
+    "vivianus3950": "barbieguuurl",
+    "_meliz_": "lucine2884",
+    "cricri7570": "thomas5564",
+    "Cinducci": "cricri7570",
+    "lucine2884": "bylex0802",
+    "barbieguuurl": "_meliz_",
+    "thomas5564": "Cinducci"
+  },
+
+  
+  "couple_dict": {
+    "bylex0802": "Cinducci",
+    "vivianus3950": "lucine2884",
+    "Cinducci": "bylex0802",
+    "lucine2884": "vivianus3950",
+    "_meliz_": "thomas5564",
+    "thomas5564": "_meliz_",
+    "cricri7570": "LoloManzo",
+    "LoloManzo": "cricri7570"
+  }
+}

@@ -208,7 +208,10 @@ class MyClient(discord.Client):
         for (from_id, to_id) in pairings:
             message = f"Le tirage a été effectué, tu dois offrir un cadeau à {id_to_display_name[to_id]}"
             dm = await self.dm(from_id, message)
-            print(f"DM to {from_id} : {dm}")
+            if dm is None:
+                print(f"Failed to send DM to {from_id}")
+            else:
+                print(f"DM to {from_id} : {dm}")
 
         await self.send_general("Le tirage au sort a été réalisé, vous devriez avoir reçu un message privé de ma part.")
         print('finished secret santa')

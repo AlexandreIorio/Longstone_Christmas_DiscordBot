@@ -10,7 +10,7 @@
     "barbieguuurl",
     "thomas5564"
   ],
-  
+
   "id_to_display_name": {
     "thomas5564": "ThomasB",
     "bylex0802": "ByLex",
@@ -49,10 +49,10 @@
 
   
   "couple_dict": {
-    "bylex0802": "Cinducci",
-    "vivianus3950": "lucine2884",
     "Cinducci": "bylex0802",
+    "bylex0802": "Cinducci",
     "lucine2884": "vivianus3950",
+    "vivianus3950": "lucine2884",
     "_meliz_": "thomas5564",
     "thomas5564": "_meliz_",
     "cricri7570": "LoloManzo",

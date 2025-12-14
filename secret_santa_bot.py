@@ -54,6 +54,27 @@ class MyClient(discord.Client):
             raise Exception("Not connected to the longstone guild! " + 
                              f"(id {LONGSTONE_GUILD})")
         return guild
+    
+    def get_longstone_members(self):
+        guild = self.get_longstone_guild()
+
+        if (not guild.members):
+            return []
+        return guild.members
+    
+
+    def get_longstone_member(self, member_name):
+        members = self.get_longstone_members()
+            
+        if (not members):
+            print("No members in guild")
+            return None
+        
+        to_member = find(lambda m: m.name == member_name or
+                            m.display_name == member_name, members)
+        return to_member
+
+        
 
     async def on_message(self, message):
         # do not respond to own messages
@@ -79,7 +100,6 @@ class MyClient(discord.Client):
             if match:
                 to = match.group(1)
                 text = match.group(2)
-                # "thomas5564"
                 await self.dm(to, text)
         
         elif message.content.startswith('!speak'):
@@ -101,16 +121,32 @@ class MyClient(discord.Client):
         await self.get_longstone_guild().system_channel.send(text)
 
     async def dm(self, to, text):
-        # TODO cache/store locally members ?
-        members = await self.get_longstone_guild().chunk() 
-        to_member = find(lambda m: m.name == to, members)
-        if(not to_member):
+
+        member = self.get_longstone_member(to)
+
+        if(not member):
             print(f"Couldn't find the member {to}")
-        else:
-            print(await to_member.send(text))
+            return None
+        try:
+            dm_message = await member.send(text)
+            print(f"DM sent to {to}: {text}")
+            return dm_message
+        except discord.Forbidden:
+            print(f"Cannot send DM to {to} - user has DMs disabled or bot is blocked")
+            return None
+        except Exception as e:
+            print(f"Error sending DM to {to}: {e}")
+            return None
     
     async def reply_members(self, message):
-        members = await self.get_longstone_guild().chunk()
+
+        guild = self.get_longstone_guild()
+
+        if (not guild.members):
+            print("No members in guild")
+            return None
+        
+        members = guild.members
         print("members:")
         print([(member.name, member.display_name) for member in members])
         print()
@@ -171,10 +207,12 @@ class MyClient(discord.Client):
         # send secret santa to everybody
         print('sending dms')
         for (from_id, to_id) in pairings:
-            await self.dm(from_id, f"Le tirage a été effectué, tu dois offrir un cadeau à {id_to_display_name[to_id]}")
-            print('sent dm', from_id, to_id, f"Le tirage a été effectué, tu dois offrir un cadeau à {id_to_display_name[to_id]}");
+            message = f"Le tirage a été effectué, tu dois offrir un cadeau à {id_to_display_name[to_id]}"
+            dm = await self.dm(from_id, message)
+            print(f"DM to {from_id} : {dm}")
+            
         await self.send_general("Le tirage au sort a été réalisé, vous devriez avoir reçu un message privé de ma part.")
-        print('finished secret santa');
+        print('finished secret santa')
 
 def retrieveToken():
     # Check environment variable first

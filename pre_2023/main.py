@@ -1,6 +1,0 @@
-import discordBot
-
-discordBot.run()
-
-
-

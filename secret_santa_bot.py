@@ -157,8 +157,14 @@ class MyClient(discord.Client):
         print('finished secret santa');
 
 def retrieveToken():
+    # Check environment variable first
+    token = os.getenv('SECRET_SANTA_TOKEN')
+    if token:
+        return token.strip()
+    
+    # Fallback to file in parent directory
     with open(pathlib.Path(os.getcwd()).parent / 'tokenSecretSanta') as f:
-        return f.readline()
+        return f.readline().strip()
 
 if __name__ == '__main__':
     try:

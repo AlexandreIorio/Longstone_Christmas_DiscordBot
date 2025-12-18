@@ -95,7 +95,7 @@ class MyClient(discord.Client):
             await self.reply_members(message)
 
         elif message.content.startswith('!dm'):
-            match = re.match(r'!dm (.+?) (.+)', message.content)
+            match = re.match(r'!dm (\S+) (.+)', message.content, re.DOTALL)
             if match:
                 to = match.group(1)
                 text = match.group(2)
